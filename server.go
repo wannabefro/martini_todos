@@ -10,6 +10,7 @@ import (
 	"log"
 	"time"
 	"./db/models"
+	"strconv"
 	"os"
 )
 
@@ -23,7 +24,7 @@ func main() {
 	m.Map(db)
 	m.Use(martini.Static("assets"))
 	dbmap := &gorp.DbMap{Db: db, Dialect: gorp.PostgresDialect{}}
-	dbmap.AddTableWithName(models.Todo{}, "todos")
+	dbmap.AddTableWithName(models.Todo{}, "todos").SetKeys(true, "Id")
 	defer dbmap.Db.Close()
 
 	m.Use(render.Renderer(render.Options {
@@ -55,9 +56,8 @@ func main() {
 		dbmap.TraceOff()
 		if err != nil {
 			log.Println(err)
-			// r.Redirect("todos/new", 500)
 		}
-		r.Redirect("todos/" + string(t1.Id), 200)
+		r.Redirect("todos/" + strconv.FormatInt(t1.Id, 10), 302)
 	})
 
 	m.Get("/todos/:id", func(params martini.Params, r render.Render) {
