@@ -1,0 +1,5 @@
+<h1>All Todos</h1>
+
+{{ range . }}
+  <a href="/todos/{{ .Id }}">{{ .Title }}</a>
+{{ end }}

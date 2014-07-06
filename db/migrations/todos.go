@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"github.com/coopernurse/gorp"
 	"log"
+	"../models"
 )
 
 func main() {
@@ -12,12 +13,6 @@ func main() {
 	defer dbmap.Db.Close()
 }
 
-type Todo struct {
-	Id					int64
-	Created			int64
-	Title				string
-	Description	string
-}
 
 func initDb() *gorp.DbMap {
 	db, err := sql.Open("postgres", "user=admin dbname=martinitodos sslmode=disable")
@@ -25,7 +20,7 @@ func initDb() *gorp.DbMap {
 
 	dbmap := &gorp.DbMap{Db: db, Dialect: gorp.PostgresDialect{}}
 
-	table := dbmap.AddTableWithName(Todo{}, "todos").SetKeys(true, "Id")
+	table := dbmap.AddTableWithName(models.Todo{}, "todos").SetKeys(true, "Id")
 	table.ColMap("Title").SetNotNull(true)
 	table.ColMap("Description").SetNotNull(true)
 
