@@ -50,10 +50,8 @@ func main() {
 	})
 
 	m.Post("/todos", binding.Bind(models.Todo{}), func(todo models.Todo, r render.Render) {
-		dbmap.TraceOn("[gorp]", log.New(os.Stdout, "myapp:", log.Lmicroseconds)) 
 		t1 := &models.Todo{Title: todo.Title, Description: todo.Description, Created: time.Now().UnixNano()}
 		err := dbmap.Insert(t1)
-		dbmap.TraceOff()
 		if err != nil {
 			log.Println(err)
 		}
