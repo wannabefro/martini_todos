@@ -4,7 +4,7 @@ import (
 	"github.com/go-martini/martini"
 	"github.com/martini-contrib/render"
 	_ "github.com/lib/pq"
-	"github.com/coopernurse/gorp"
+	// "github.com/coopernurse/gorp"
 	"database/sql"
 	"log"
 )
