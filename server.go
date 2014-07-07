@@ -30,7 +30,7 @@ func main() {
 		Layout: "layout",
 		Funcs: []template.FuncMap {
 			{
-				"formatTime": func(args ...interface{}) string { 
+				"formatTime": func(args ...interface{}) string {
 					t1 := time.Unix(args[0].(int64), 0)
 					return t1.Format("Mon Jan _2 2006")
 				},
@@ -39,16 +39,11 @@ func main() {
 	}))
 
 	m.Get("/", func(r render.Render) {
-		r.HTML(200, "welcome", map[string]interface{}{"greeting": "everybody"})
-	})
-
-	m.Get("/todos", func(r render.Render) {
 		var todos []Todo
 		_, err := dbmap.Select(&todos, "select * from todos order by created")
 		if err != nil {
 			log.Fatalln(err)
 		}
-		log.Println(todos)
 		r.HTML(200, "todos/index", todos)
 	})
 
@@ -74,7 +69,7 @@ func main() {
 		err := dbmap.SelectOne(&todo, "select * from todos where id = :id",
 		map[string]interface{} {"id": params["id"]})
 		if err != nil {
-			log.Println(err)
+			r.HTML(404, "error", "This todo is not found")
 		}
 		r.HTML(200, "todos/show", todo)
 	})

@@ -1,5 +1,7 @@
 <h1>All Todos</h1>
 
+<ul>
 {{ range . }}
-  <a href="/todos/{{ .Id }}">{{ .Title }}</a>
+  <li><a href="/todos/{{ .Id }}">{{ .Title }}</a> from {{ .Created | formatTime }}</li>
 {{ end }}
+</ul>

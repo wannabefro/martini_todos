@@ -1,13 +1,33 @@
 <html>
-  <head>
-    <title>Go Todos</title>
-    <link rel="stylesheet" href="http:////maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-  </head>
-  <body>
+<head>
+  <title>Go Todos</title>
+  <link rel="stylesheet" href="http:////maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+</head>
+<body>
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Martini Todos</a>
+      </div>
 
-    <div class='container'>
-    {{ yield }}
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/">All Todos</a></li>
+          <li><a href="todos/new">New Todo</a></li>
+        </ul>
+      </div>
     </div>
+  </nav>
 
-  </body>
+  <div class='container'>
+    {{ yield }}
+  </div>
+
+</body>
 </html>
