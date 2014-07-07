@@ -1,3 +1,6 @@
+{{ range . }}
+  <p>{{ .FieldNames }} is {{ .Message }}</p>
+{{ end }}
 <form role="form" action="/todos" method="post">
 <div class="form-group">
 <label for="title">Title</label>

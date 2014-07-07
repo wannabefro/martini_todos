@@ -11,7 +11,7 @@ import (
 	"time"
 	"./db/models"
 	"strconv"
-	"os"
+	// "os"
 )
 
 func main() {
@@ -49,13 +49,17 @@ func main() {
 		r.HTML(200, "todos/new", nil)
 	})
 
-	m.Post("/todos", binding.Bind(models.Todo{}), func(todo models.Todo, r render.Render) {
-		t1 := &models.Todo{Title: todo.Title, Description: todo.Description, Created: time.Now().UnixNano()}
-		err := dbmap.Insert(t1)
-		if err != nil {
-			log.Println(err)
+	m.Post("/todos", binding.Form(models.Todo{}), func(todo models.Todo, errors binding.Errors, r render.Render) {
+		if errors != nil {
+			r.HTML(422, "todos/new", errors)
+		} else {
+			t1 := &models.Todo{Title: todo.Title, Description: todo.Description, Created: time.Now().UnixNano()}
+			err := dbmap.Insert(t1)
+			if err != nil {
+				log.Println(err)
+			}
+			r.Redirect("todos/" + strconv.FormatInt(t1.Id, 10), 302)
 		}
-		r.Redirect("todos/" + strconv.FormatInt(t1.Id, 10), 302)
 	})
 
 	m.Get("/todos/:id", func(params martini.Params, r render.Render) {
