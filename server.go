@@ -9,6 +9,7 @@ import (
 	"database/sql"
 	"log"
 	"time"
+	"html/template"
 	"strconv"
 )
 
@@ -27,6 +28,14 @@ func main() {
 
 	m.Use(render.Renderer(render.Options {
 		Layout: "layout",
+		Funcs: []template.FuncMap {
+			{
+				"formatTime": func(args ...interface{}) string { 
+					t1 := time.Unix(args[0].(int64), 0)
+					return t1.Format("Mon Jan _2 2006")
+				},
+			},
+		},
 	}))
 
 	m.Get("/", func(r render.Render) {
@@ -51,7 +60,7 @@ func main() {
 		if errors != nil {
 			r.HTML(422, "todos/new", errors)
 		} else {
-			t1 := &Todo{Title: todo.Title, Description: todo.Description, Created: time.Now().UnixNano()}
+			t1 := &Todo{Title: todo.Title, Description: todo.Description, Created: time.Now().Unix()}
 			err := dbmap.Insert(t1)
 			if err != nil {
 				log.Println(err)
